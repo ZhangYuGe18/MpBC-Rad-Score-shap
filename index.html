@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MpBC-Rad Score · TabPFN survival + SHAP</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Metaplastic Breast Cancer — <span class="accent">MpBC-Rad Score</span></h1>
+    <p class="sub">An interpretable <strong>TabPFN</strong> overall-survival model. Survival and an
+      exact per-feature <strong>SHAP</strong> attribution update live. High-risk patients are
+      flagged as likely to benefit from adjuvant radiotherapy.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="panel inputs">
+    <h2>Patient profile</h2>
+    <p class="hint">Predictions update as you change inputs.</p>
+    <label>Age <span id="AgeVal" class="val">55</span>
+      <input type="range" id="Age" min="21" max="90" value="55"></label>
+    <label>T stage <select id="Tstage"></select></label>
+    <label>N stage <select id="Nstage"></select></label>
+    <label>Surgery <select id="Surgery"></select></label>
+    <label>Chemotherapy group <select id="Response"></select></label>
+    <label>Molecular subtype <select id="Subtype"></select></label>
+    <p class="status" id="status"></p>
+  </section>
+
+  <section class="panel reco-panel">
+    <h2>Radiotherapy recommendation</h2>
+    <p class="explain">High-risk patients (5-year death risk above the cohort cut-off) are advised
+      to consider adjuvant radiotherapy; low-risk patients may reasonably omit it.</p>
+    <div id="recoBox" class="reco"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Predicted overall survival</h2>
+    <p class="explain">Probability of being alive at each horizon, from the TabPFN model.</p>
+    <div id="survCards" class="cards"></div>
+  </section>
+
+  <section class="panel">
+    <div class="row-head">
+      <h2>Feature attribution (exact SHAP)</h2>
+      <div id="horizonTabs" class="tabs"></div>
+    </div>
+    <p class="explain">Exact first-order Shapley values (shapiq, 64 coalitions) of the death-risk:
+      <span class="pos-key">orange / right</span> = increases risk,
+      <span class="neg-key">teal / left</span> = decreases risk. They sum to the model output.</p>
+    <div id="shapBars" class="bars"></div>
+    <p class="note" id="shapNote"></p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Research demonstration only — not a medical device. Fully static site (GitHub Pages):
+     survival and exact TabPFN SHAP are precomputed in <code>shap_table.json</code>.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
